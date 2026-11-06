@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="id" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ikbal Abi Pamungkas — CV & Portfolio Profesional</title>
+  <meta name="description" content="Website CV & Portfolio Profesional Ikbal Abi Pamungkas - Siswa SMK TI Garuda Nusantara (TKJ)." />
+
+  <!-- Tailwind CSS CDN with custom config -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            navy: {
+              800: '#0f172a',
+              900: '#0b192c',
+              950: '#060d17',
+            }
+          },
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- React 18, ReactDOM & Babel for instant browser execution -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #38bdf8;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #0284c7;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.98); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 0.25s ease-out forwards;
+    }
+
+    /* Print styling for direct CV PDF generation */
+    @media print {
+      @page {
+        margin: 12mm;
+        size: A4 portrait;
+      }
+      body {
+        background: white !important;
+        color: #0f172a !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      header, footer, nav, #hero, #about, #education, #skills, #experience, #projects, #contact {
+        display: none !important;
+      }
+      #printable-cv {
+        display: block !important;
+        position: static !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+      }
+      #printable-cv * {
+        visibility: visible !important;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased selection:bg-sky-500 selection:text-white">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    // Central Data Model
+    const cvData = {
+      personal: {
+        fullName: "Ikbal Abi Pamungkas",
+        nickname: "Ikbal",
+        profession: "Siswa SMK TKJ • Calon Praktikan Magang IT",
+        statusBadge: "Tersedia untuk Magang / PKL",
+        email: "kazenakair@gmail.com",
+        whatsapp: "085147633210",
+        whatsappLink: "https://wa.me/6285147633210?text=Halo%20Ikbal,%20saya%20melihat%20website%20CV%20Anda%20dan%20tertarik%20untuk%20berdiskusi.",
+        instagram: "andrw_gves",
+        instagramLink: "https://instagram.com/andrw_gves",
+        github: "horisagi",
+        githubLink: "https://github.com/horisagi",
+        location: "Indonesia",
+        shortBio: "Individu yang antusias terhadap perkembangan teknologi, senang mengeksplorasi hal baru, serta memiliki motivasi untuk terus mengembangkan keterampilan dan pengalaman di bidang IT.",
+        aboutMe: "Siswa SMK jurusan Teknik Komputer dan Jaringan yang memiliki minat besar dalam bidang teknologi dan IT. Memiliki rasa ingin tahu tinggi, bertanggung jawab, serta berkomitmen untuk terus mengembangkan keterampilan teknis maupun kemampuan bekerja sama.",
+        careerGoal: "Mengembangkan potensi diri, memperluas pengalaman, dan membangun kompetensi profesional untuk mencapai karier yang sukses di bidang teknologi.",
+      },
+      interests: [
+        {
+          title: "Teknologi Informasi",
+          description: "Tertarik mempelajari perkembangan teknologi terkini dan inovasi dunia digital.",
+          icon: "Cpu"
+        },
+        {
+          title: "Jaringan Komputer",
+          description: "Fokus pada konfigurasi jaringan, troubleshooting koneksi, dan infrastruktur sistem.",
+          icon: "Network"
+        },
+        {
+          title: "Web Development",
+          description: "Tertarik membuat dan mengembangkan antarmuka website menggunakan HTML, CSS, dan JavaScript.",
+          icon: "Code"
+        },
+        {
+          title: "Artificial Intelligence",
+          description: "Senang mengeksplorasi teknologi kecerdasan buatan (AI) dan pemanfaatannya dalam produktivitas.",
+          icon: "Sparkles"
+        },
+        {
+          title: "Desain Digital",
+          description: "Tertarik pada estetika desain grafis, dasar-dasar UI/UX, dan pembuatan konten visual digital.",
+          icon: "Palette"
+        }
+      ],
+      education: [
+        {
+          period: "2024 – Sekarang",
+          institution: "SMK TI GARUDA NUSANTARA",
+          major: "Teknik Komputer dan Jaringan (TKJ)",
+          level: "SMK",
+          description: "Mempelajari administrasi infrastruktur jaringan komputer, perakitan dan perawatan hardware, sistem operasi, serta dasar-dasar pemrograman dan teknologi web.",
+          current: true
+        },
+        {
+          period: "2021 – 2024",
+          institution: "SMP (Sekolah Menengah Pertama)",
+          major: "Pendidikan Menengah Pertama",
+          level: "SMP",
+          description: "Menyelesaikan pendidikan dasar lanjutan dengan fokus pada pengembangan karakter, literasi digital awal, dan kerja sama tim.",
+          current: false
+        },
+        {
+          period: "2015 – 2021",
+          institution: "SD (Sekolah Dasar)",
+          major: "Pendidikan Dasar",
+          level: "SD",
+          description: "Menyelesaikan masa pendidikan dasar dengan prestasi akademis dan minat awal terhadap dunia komputer dan sains.",
+          current: false
+        }
+      ],
+      skills: {
+        technical: [
+          { name: "Computer Networking", level: 85, category: "Jaringan" },
+          { name: "Network Configuration", level: 80, category: "Jaringan" },
+          { name: "Hardware & Software Troubleshooting", level: 85, category: "Hardware" },
+          { name: "Web Development (HTML, CSS, JS)", level: 75, category: "Pemrograman" },
+          { name: "Sistem Operasi (Windows & Linux Dasar)", level: 80, category: "Sistem" },
+          { name: "Kabel Jaringan (Crimping UTP & Testing)", level: 90, category: "Hardware" }
+        ],
+        soft: [
+          { name: "Communication", description: "Komunikasi yang baik, santun, dan mampu menyampaikan ide secara jelas.", tag: "Interpersonal" },
+          { name: "Teamwork", description: "Mampu bekerja sama secara efektif dalam tim dan saling mendukung dalam menyelesaikan target.", tag: "Kolaborasi" },
+          { name: "Willingness to Learn", description: "Memiliki rasa ingin tahu yang tinggi dan komitmen kuat untuk mempelajari teknologi baru.", tag: "Dedikasi" },
+          { name: "Problem Solving", description: "Mampu berpikir logis dan sistematis saat menghadapi kendala teknis jaringan atau sistem.", tag: "Analisis" },
+          { name: "Adaptability", description: "Cepat beradaptasi dengan lingkungan baru, instruksi kerja, dan standar operasional.", tag: "Fleksibilitas" }
+        ]
+      },
+      experiences: [
+        {
+          title: "Praktikum Laboratorium Jaringan & Komputer",
+          role: "Siswa Praktikan TKJ",
+          organization: "SMK TI Garuda Nusantara",
+          period: "2024 – Sekarang",
+          type: "Akademik & Praktik",
+          achievements: [
+            "Melakukan konfigurasi perutean (routing) dasar dan pembagian subnet IP Address.",
+            "Mempraktikkan crimping kabel UTP dengan susunan Straight dan Cross hingga lulus uji pengujian kabel tester.",
+            "Melakukan perakitan komponen PC, instalasi sistem operasi Windows/Linux, serta pemecahan masalah (troubleshooting) perangkat.",
+            "Mengelola instalasi software pendukung produktivitas dan pemeliharaan rutin laboratorium."
+          ]
+        },
+        {
+          title: "Kolaborasi Proyek & Ekstrakurikuler IT",
+          role: "Anggota Tim",
+          organization: "Komunitas Belajar IT SMK TI Garuda Nusantara",
+          period: "2024 – Sekarang",
+          type: "Organisasi & Belajar Mandiri",
+          achievements: [
+            "Berpartisipasi aktif dalam sesi diskusi troubleshooting komputer dan pengenalan konfigurasi jaringan nirkabel.",
+            "Bekerja sama dalam kelompok untuk menyelesaikan tugas pemodelan topologi jaringan lokal sekolah.",
+            "Eksplorasi pembuatan website portfolio pribadi dan pengenalan alat bantu AI dalam mempermudah pembelajaran teknis."
+          ]
+        },
+        {
+          title: "Kesiapan Program Magang / Praktik Kerja Lapangan (PKL)",
+          role: "Calon Praktikan Magang",
+          organization: "Program Penyaluran Magang SMK",
+          period: "Mendatang / Tersedia",
+          type: "Kesiapan Kerja",
+          achievements: [
+            "Siap ditempatkan pada posisi IT Support, Junior Network Administrator, Teknisi Komputer, atau Junior Web Assistant.",
+            "Membawa integritas, disiplin waktu, etika kerja profesional, dan semangat belajar tinggi untuk mendukung produktivitas perusahaan."
+          ]
+        }
+      ],
+      projects: [
+        {
+          id: "net-topology",
+          title: "Perancangan Topologi Jaringan Komputer LAN",
+          category: "Jaringan",
+          description: "Simulasi dan rancang bangun topologi jaringan lokal untuk kantor bertingkat, mencakup konfigurasi IP static/DHCP, switch management, dan uji konektivitas ping tanpa packet loss.",
+          technologies: ["Cisco Packet Tracer", "Subnetting IPv4", "DHCP Server", "LAN Switching"],
+          highlights: "Simulasi koneksi stabil antar-departemen dengan segmentasi keamanan jaringan dasar.",
+          github: "https://github.com/horisagi"
+        },
+        {
+          id: "personal-cv-web",
+          title: "Modern Professional CV & Portfolio Website",
+          category: "Web Dev",
+          description: "Website CV digital interaktif berbasis React dan Tailwind CSS dengan fitur Light/Dark Mode, responsivitas multi-device, tombol WhatsApp/Email langsung, dan fitur ekspor cetak PDF resmi.",
+          technologies: ["React", "Tailwind CSS", "JavaScript ES6+", "Responsive UI", "Print/PDF Export"],
+          highlights: "Desain minimalis berkelas dengan palet Navy Blue, performa cepat, dan aksesibilitas ramah pengguna.",
+          github: "https://github.com/horisagi"
+        },
+        {
+          id: "pc-troubleshoot",
+          title: "Panduan & Standar Operasional Troubleshooting PC",
+          category: "Hardware",
+          description: "Penyusunan alur kerja sistematis untuk diagnosa kerusakan hardware (RAM, Storage, PSU) dan perbaikan software crash/bluescreen pada komputer desktop di lingkungan lab sekolah.",
+          technologies: ["Hardware Diagnostics", "Windows Recovery", "Driver Management", "BIOS Setup"],
+          highlights: "Membantu mempercepat waktu diagnosa kendala perangkat keras hingga 40%.",
+          github: "https://github.com/horisagi"
+        },
+        {
+          id: "mini-web-tools",
+          title: "Eksplorasi Web Tools & AI Integration Helper",
+          category: "Web Dev",
+          description: "Eksperimen antarmuka web interaktif sederhana yang menggabungkan kalkulator subnetting IP, catatan teknis, dan integrasi modul tanya jawab AI untuk belajar materi IT.",
+          technologies: ["HTML5", "CSS3 / Tailwind", "JavaScript", "AI Prompting"],
+          highlights: "Alat bantu belajar mandiri untuk mempercepat pemahaman materi jaringan dan konfigurasi.",
+          github: "https://github.com/horisagi"
+        }
+      ]
+    };
+
+    // NAVBAR COMPONENT
+    function Navbar({ darkMode, setDarkMode, onOpenCVModal }) {
+      const [scrolled, setScrolled] = useState(false);
+      const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+      const [activeSection, setActiveSection] = useState('hero');
+
+      const navLinks = [
+        { name: 'Beranda', href: '#hero' },
+        { name: 'Tentang', href: '#about' },
+        { name: 'Pendidikan', href: '#education' },
+        { name: 'Keahlian', href: '#skills' },
+        { name: 'Pengalaman', href: '#experience' },
+        { name: 'Proyek', href: '#projects' },
+        { name: 'Kontak', href: '#contact' }
+      ];
+
+      useEffect(() => {
+        const handleScroll = () => {
+          setScrolled(window.scrollY > 20);
+          const sections = navLinks.map(link => link.href.substring(1));
+          const scrollPosition = window.scrollY + 200;
+
+          for (let i = sections.length - 1; i >= 0; i--) {
+            const el = document.getElementById(sections[i]);
+            if (el && el.offsetTop <= scrollPosition) {
+              setActiveSection(sections[i]);
+              break;
+            }
+          }
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
+
+      return (
+        <header className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+          scrolled 
+            ? darkMode 
+              ? 'bg-slate-950/85 backdrop-blur-md border-b border-slate-800/80 shadow-lg shadow-black/20' 
+              : 'bg-white/85 backdrop-blur-md border-b border-slate-200/80 shadow-sm'
+            : 'bg-transparent'
+        }`}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16 md:h-20">
+              <a href="#hero" className="flex items-center gap-3 group">
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-lg transition-transform duration-300 group-hover:scale-105 shadow-md ${
+                  darkMode 
+                    ? 'bg-gradient-to-br from-blue-600 to-sky-400 text-white shadow-blue-500/20' 
+                    : 'bg-gradient-to-br from-navy-900 via-blue-900 to-sky-600 text-white shadow-blue-900/20'
+                }`}>
+                  IP
+                </div>
+                <div className="flex flex-col">
+                  <span className={`font-bold text-sm sm:text-base tracking-tight leading-tight ${
+                    darkMode ? 'text-white' : 'text-slate-900'
+                  }`}>
+                    Ikbal Abi P.
+                  </span>
+                  <span className="text-[11px] font-medium text-sky-500">
+                    SMK TKJ • IT Intern
+                  </span>
+                </div>
+              </a>
+
+              <nav className="hidden md:flex items-center gap-1 lg:gap-2">
+                {navLinks.map((link) => {
+                  const isActive = activeSection === link.href.substring(1);
+                  return (
+                    <a
+                      key={link.name}
+                      href={link.href}
+                      className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200 ${
+                        isActive
+                          ? darkMode 
+                            ? 'text-sky-400 bg-sky-950/60 font-semibold' 
+                            : 'text-blue-700 bg-blue-50 font-semibold'
+                          : darkMode 
+                            ? 'text-slate-300 hover:text-white hover:bg-slate-800/50' 
+                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                      }`}
+                    >
+                      {link.name}
+                    </a>
+                  );
+                })}
+              </nav>
+
+              <div className="flex items-center gap-2 sm:gap-3">
+                <button
+                  onClick={() => setDarkMode(!darkMode)}
+                  title={darkMode ? "Ganti ke Mode Terang" : "Ganti ke Mode Gelap"}
+                  aria-label="Toggle Theme"
+                  className={`p-2 sm:p-2.5 rounded-xl transition-colors duration-200 border ${
+                    darkMode 
+                      ? 'bg-slate-900 border-slate-700 text-amber-300 hover:bg-slate-800' 
+                      : 'bg-slate-100 border-slate-200 text-slate-700 hover:bg-slate-200'
+                  }`}
+                >
+                  {darkMode ? '☀️' : '🌙'}
+                </button>
+
+                <button
+                  onClick={onOpenCVModal}
+                  className={`hidden sm:inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-200 shadow-sm ${
+                    darkMode 
+                      ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-500/20' 
+                      : 'bg-slate-900 hover:bg-blue-800 text-white'
+                  }`}
+                >
+                  <span>⬇️ Download CV</span>
+                </button>
+
+                <button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  aria-label="Toggle Mobile Menu"
+                  className={`md:hidden p-2 rounded-xl border transition-colors ${
+                    darkMode 
+                      ? 'bg-slate-900 border-slate-800 text-slate-200 hover:bg-slate-800' 
+                      : 'bg-slate-100 border-slate-200 text-slate-800 hover:bg-slate-200'
+                  }`}
+                >
+                  {mobileMenuOpen ? '✕' : '☰'}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {mobileMenuOpen && (
+            <div className={`md:hidden border-b transition-all duration-200 ${
+              darkMode ? 'bg-slate-950/95 border-slate-800 text-slate-200' : 'bg-white/95 border-slate-200 text-slate-800'
+            } backdrop-blur-xl px-4 pt-3 pb-6 space-y-2`}>
+              {navLinks.map((link) => (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`block px-4 py-2.5 rounded-lg text-sm font-medium transition ${
+                    activeSection === link.href.substring(1)
+                      ? darkMode ? 'bg-sky-950/80 text-sky-400 font-semibold' : 'bg-blue-50 text-blue-700 font-semibold'
+                      : darkMode ? 'hover:bg-slate-900' : 'hover:bg-slate-100'
+                  }`}
+                >
+                  {link.name}
+                </a>
+              ))}
+              <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex flex-col gap-2">
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onOpenCVModal();
+                  }}
+                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 text-white font-medium text-sm shadow-md"
+                >
+                  Download CV (PDF)
+                </button>
+              </div>
+            </div>
+          )}
+        </header>
+      );
+    }
+
+    // HERO COMPONENT
+    function Hero({ darkMode, onOpenCVModal }) {
+      const { personal } = cvData;
+
+      return (
+        <section id="hero" className="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden">
+          <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-gradient-to-tr from-blue-600/15 via-sky-400/10 to-transparent rounded-full blur-3xl pointer-events-none -z-10" />
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+              
+              <div className="lg:col-span-7 flex flex-col items-start text-left order-2 lg:order-1">
+                <div className={`inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full text-xs font-semibold mb-6 border transition-all duration-300 shadow-sm ${
+                  darkMode ? 'bg-slate-900/90 border-sky-500/30 text-sky-300' : 'bg-blue-50 border-blue-200 text-blue-800'
+                }`}>
+                  <span className="relative flex h-2.5 w-2.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                  </span>
+                  <span>{personal.statusBadge}</span>
+                </div>
+
+                <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.15] mb-4">
+                  <span className={darkMode ? 'text-slate-300' : 'text-slate-700'}>Halo, Saya </span>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-sky-500 to-cyan-400">
+                    {personal.fullName}
+                  </span>
+                </h1>
+
+                <h2 className={`text-lg sm:text-xl md:text-2xl font-semibold mb-5 ${
+                  darkMode ? 'text-slate-300' : 'text-slate-700'
+                }`}>
+                  {personal.profession}
+                </h2>
+
+                <p className={`text-base sm:text-lg leading-relaxed max-w-2xl mb-8 ${
+                  darkMode ? 'text-slate-400' : 'text-slate-600'
+                }`}>
+                  {personal.shortBio}
+                </p>
+
+                <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto mb-10">
+                  <button
+                    onClick={onOpenCVModal}
+                    className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm text-white bg-gradient-to-r from-blue-700 via-blue-600 to-sky-600 hover:from-blue-800 hover:to-sky-700 shadow-lg shadow-blue-600/25 transition-all duration-300 transform hover:-translate-y-0.5"
+                  >
+                    <span>Download CV (PDF)</span>
+                  </button>
+
+                  <a
+                    href="#contact"
+                    className={`w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm border transition-all duration-300 ${
+                      darkMode 
+                        ? 'border-slate-700 bg-slate-900/80 text-slate-200 hover:border-sky-500 hover:text-sky-400' 
+                        : 'border-slate-300 bg-white text-slate-800 hover:border-blue-600 hover:text-blue-700'
+                    } shadow-sm transform hover:-translate-y-0.5`}
+                  >
+                    <span>Contact Me</span>
+                  </a>
+                </div>
+
+                <div className={`pt-6 border-t w-full flex flex-wrap items-center gap-6 text-xs sm:text-sm font-medium ${
+                  darkMode ? 'border-slate-800/80 text-slate-400' : 'border-slate-200 text-slate-500'
+                }`}>
+                  <a href={personal.whatsappLink} target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-emerald-500 transition">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
+                    <span>WhatsApp: {personal.whatsapp}</span>
+                  </a>
+                  <a href={`mailto:${personal.email}`} className="flex items-center gap-2 hover:text-sky-500 transition">
+                    <span className="w-2 h-2 rounded-full bg-sky-500"></span>
+                    <span>{personal.email}</span>
+                  </a>
+                  <a href={personal.githubLink} target="_blank" rel="noreferrer" className="flex items-center gap-2 hover:text-slate-200 transition">
+                    <span className="w-2 h-2 rounded-full bg-slate-400"></span>
+                    <span>GitHub: @{personal.github}</span>
+                  </a>
+                </div>
+              </div>
+
+              <div className="lg:col-span-5 flex justify-center order-1 lg:order-2">
+                <div className="relative group max-w-sm sm:max-w-md w-full">
+                  <div className="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-blue-600 via-sky-500 to-indigo-600 opacity-30 blur-xl group-hover:opacity-50 transition duration-700" />
+                  
+                  <div className={`relative rounded-3xl overflow-hidden p-3 border shadow-2xl transition-all duration-300 ${
+                    darkMode ? 'bg-slate-900/90 border-slate-700/80' : 'bg-white border-slate-200/80 shadow-blue-900/10'
+                  }`}>
+                    <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-gradient-to-b from-slate-900 to-navy-950 flex items-center justify-center">
+                      <img
+                        src="./avatar-placeholder.svg"
+                        alt={personal.fullName}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute top-3 left-3 px-2.5 py-1 rounded-md bg-slate-950/70 backdrop-blur-md border border-sky-500/30 text-[11px] font-mono font-semibold text-sky-400">
+                        SMK TI Garuda N.
+                      </div>
+                      <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-md bg-slate-950/70 backdrop-blur-md border border-emerald-500/30 text-[11px] font-mono font-semibold text-emerald-400">
+                        TKJ 2024–Now
+                      </div>
+                    </div>
+
+                    <div className="p-4 flex items-center justify-between">
+                      <div>
+                        <h3 className={`font-bold text-sm ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+                          {personal.fullName}
+                        </h3>
+                        <p className="text-xs text-sky-500 font-medium">
+                          Teknik Komputer & Jaringan
+                        </p>
+                      </div>
+                      <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider ${
+                        darkMode ? 'bg-sky-950 text-sky-300 border border-sky-800' : 'bg-sky-100 text-sky-800'
+                      }`}>
+                        Ready for Work
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // ABOUT COMPONENT
+    function About({ darkMode }) {
+      const { personal, interests } = cvData;
+
+      return (
+        <section id="about" className={`py-20 transition-colors duration-300 ${
+          darkMode ? 'bg-slate-900/50' : 'bg-slate-50/70'
+        }`}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col items-center text-center mb-16">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold text-sky-500 bg-sky-500/10 mb-3 uppercase tracking-wider">
+                Tentang Saya
+              </div>
+              <h2 className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${
+                darkMode ? 'text-white' : 'text-slate-900'
+              }`}>
+                Mengenal Lebih Dekat
+              </h2>
+              <div className="w-16 h-1 bg-gradient-to-r from-blue-600 to-sky-400 rounded-full mt-4"></div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+              <div className="lg:col-span-5 flex flex-col gap-6">
+                <div className={`p-6 sm:p-8 rounded-2xl border transition-all duration-300 shadow-sm ${
+                  darkMode ? 'bg-slate-900 border-slate-800 text-slate-300' : 'bg-white border-slate-200/80 text-slate-700'
+                }`}>
+                  <h3 className={`text-xl font-bold mb-4 flex items-center gap-2.5 ${
+                    darkMode ? 'text-white' : 'text-slate-900'
+                  }`}>
+                    <span className="w-2.5 h-6 rounded-full bg-blue-600"></span>
+                    <span>Profil Singkat</span>
+                  </h3>
+                  <p className="text-base leading-relaxed mb-6">
+                    {personal.aboutMe}
+                  </p>
+                </div>
+
+                <div className={`p-6 sm:p-8 rounded-2xl border transition-all duration-300 relative overflow-hidden ${
+                  darkMode ? 'bg-gradient-to-br from-blue-950/40 via-slate-900 to-slate-900 border-blue-500/30' : 'bg-gradient-to-br from-blue-50 via-white to-sky-50 border-blue-200'
+                }`}>
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="p-2 rounded-xl bg-blue-600 text-white font-bold">🎯</span>
+                    <h4 className={`text-base font-bold ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+                      Tujuan Karier & Pengembangan
+                    </h4>
+                  </div>
+                  <p className={`text-sm sm:text-base leading-relaxed italic ${
+                    darkMode ? 'text-slate-300' : 'text-slate-700'
+                  }`}>
+                    "{personal.careerGoal}"
+                  </p>
+                </div>
+              </div>
+
+              <div className="lg:col-span-7 flex flex-col gap-4">
+                <div className="mb-2">
+                  <h3 className={`text-xl font-bold flex items-center gap-2.5 ${
+                    darkMode ? 'text-white' : 'text-slate-900'
+                  }`}>
+                    <span className="w-2.5 h-6 rounded-full bg-sky-500"></span>
+                    <span>Minat & Bidang yang Dikuasai</span>
+                  </h3>
+                  <p className={`text-sm mt-1 ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
+                    Bidang teknologi yang aktif dipelajari, dieksplorasi, dan dikembangkan secara berkelanjutan:
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {interests.map((item, idx) => (
+                    <div
+                      key={idx}
+                      className={`p-5 rounded-2xl border transition-all duration-300 hover:shadow-lg hover:-translate-y-1 ${
+                        darkMode ? 'bg-slate-900 border-slate-800 hover:border-sky-500/50' : 'bg-white border-slate-200/90 hover:border-blue-400'
+                      }`}
+                    >
+                      <h4 className={`text-base font-bold mb-1 ${darkMode ? 'text-white' : 'text-slate-900'}`}>
+                        {item.title}
+                      </h4>
+                      <p className={`text-xs sm:text-sm leading-relaxed ${darkMode ? 'text-slate-400' : 'text-slate-600'}`}>
+                        {item.description}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // EDUCATION COMPONENT
+    function Education({ darkMode }) {
+      const { education } = cvData;
+
+      return (
+        <section id="education" className="py-20 transition-colors duration-300">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col items-center text-center mb-16">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold text-blue-500 bg-blue-500/10 mb-3 uppercase tracking-wider">
+                Riwayat Akademis
+              </div>
+              <h2 className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${
+                darkMode ? 'text-white' : 'text-slate-900'
+              }`}>
+                Pendidikan
+              </h2>
+              <div className="w-16 h-1 bg-gradient-to-r from-blue-600 to-sky-400 rounded-full mt-4"></div>
+            </div>
+
+            <div className="max-w-3xl mx-auto space-y-6">
+              {education.map((item, idx) => (
+                <div
+                  key={idx}
+                  className={`p-6 sm:p-7 rounded-2xl border transition-all duration-300 hover:shadow-lg ${
+                    item.current 
+                      ? darkMode ? 'bg-gradient-to-br from-slate-900 to-blue-950/40 border-sky-500/50' : 'bg-white border-blue-400 shadow-md'
+                      : darkMode ? 'bg-slate-900/80 border-slate-800' : 'bg-white border-slate-200'
+                  }`}
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-2">
+                    <span className="font-bold text-lg text-blue-500">{item.institution}</span>
+                    <span className="px-3 py-1 rounded-full text-xs font-bold font-mono bg-blue-600 text-white w-max">
+                      {item.period}
+                    </span>
+                  </div>
+                  <div className="text-sm font-semibold text-slate-300 mb-2">{item.major}</div>
+                  <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">{item.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // SKILLS COMPONENT
+    function Skills({ darkMode }) {
+      const { technical, soft } = cvData.skills;
+
+      return (
+        <section id="skills" className={`py-20 transition-colors duration-300 ${
+          darkMode ? 'bg-slate-900/50' : 'bg-slate-50/70'
+        }`}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col items-center text-center mb-16">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold text-sky-500 bg-sky-500/10 mb-3 uppercase tracking-wider">
+                Kompetensi
+              </div>
+              <h2 className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${
+                darkMode ? 'text-white' : 'text-slate-900'
+              }`}>
+                Keahlian & Kemampuan
+              </h2>
+              <div className="w-16 h-1 bg-gradient-to-r from-blue-600 to-sky-400 rounded-full mt-4"></div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+              <div className="lg:col-span-7 p-6 sm:p-8 rounded-2xl border bg-slate-900 border-slate-800">
+                <h3 className="text-xl font-bold mb-6 text-white">Technical Skills</h3>
+                <div className="space-y-5">
+                  {technical.map((skill, idx) => (
+                    <div key={idx}>
+                      <div className="flex justify-between text-xs sm:text-sm font-semibold text-slate-200 mb-1.5">
+                        <span>{skill.name}</span>
+                        <span className="text-sky-400 font-mono">{skill.level}%</span>
+                      </div>
+                      <div className="h-2.5 w-full rounded-full bg-slate-800 overflow-hidden">
+                        <div
+                          className="h-full rounded-full bg-gradient-to-r from-blue-600 via-sky-500 to-cyan-400"
+                          style={{ width: `${skill.level}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="lg:col-span-5 p-6 sm:p-8 rounded-2xl border bg-slate-900 border-slate-800">
+                <h3 className="text-xl font-bold mb-6 text-white">Soft Skills</h3>
+                <div className="space-y-4">
+                  {soft.map((item, idx) => (
+                    <div key={idx} className="p-4 rounded-xl bg-slate-950/60 border border-slate-800">
+                      <div className="flex justify-between items-center mb-1">
+                        <h4 className="font-bold text-sm text-white">{item.name}</h4>
+                        <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-sky-950 text-sky-300 border border-sky-800">
+                          {item.tag}
+                        </span>
+                      </div>
+                      <p className="text-xs text-slate-400 leading-relaxed">{item.description}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // EXPERIENCE COMPONENT
+    function Experience({ darkMode }) {
+      const { experiences } = cvData;
+
+      return (
+        <section id="experience" className="py-20 transition-colors duration-300">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col items-center text-center mb-16">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold text-blue-500 bg-blue-500/10 mb-3 uppercase tracking-wider">
+                Rekam Jejak
+              </div>
+              <h2 className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${
+                darkMode ? 'text-white' : 'text-slate-900'
+              }`}>
+                Pengalaman & Kesiapan Kerja
+              </h2>
+              <div className="w-16 h-1 bg-gradient-to-r from-blue-600 to-sky-400 rounded-full mt-4"></div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {experiences.map((exp, idx) => (
+                <div key={idx} className="p-6 rounded-2xl border bg-slate-900 border-slate-800 flex flex-col justify-between">
+                  <div>
+                    <span className="px-2.5 py-1 rounded text-[11px] font-bold bg-sky-950 text-sky-400 border border-sky-800 uppercase">
+                      {exp.type}
+                    </span>
+                    <h3 className="text-lg font-bold text-white mt-3 mb-1">{exp.title}</h3>
+                    <div className="text-xs text-sky-500 font-semibold mb-4">{exp.role} • {exp.organization}</div>
+                    <ul className="space-y-2 text-xs text-slate-400">
+                      {exp.achievements.map((item, i) => (
+                        <li key={i} className="flex items-start gap-2">
+                          <span className="text-sky-500 font-bold">›</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="mt-6 pt-4 border-t border-slate-800 text-[11px] text-slate-500 font-mono">
+                    {exp.period}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // PROJECTS COMPONENT
+    function Projects({ darkMode, onSelectProject }) {
+      const { projects } = cvData;
+
+      return (
+        <section id="projects" className={`py-20 transition-colors duration-300 ${
+          darkMode ? 'bg-slate-900/50' : 'bg-slate-50/70'
+        }`}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col items-center text-center mb-16">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold text-sky-500 bg-sky-500/10 mb-3 uppercase tracking-wider">
+                Portofolio Karya
+              </div>
+              <h2 className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${
+                darkMode ? 'text-white' : 'text-slate-900'
+              }`}>
+                Proyek Pilihan
+              </h2>
+              <div className="w-16 h-1 bg-gradient-to-r from-blue-600 to-sky-400 rounded-full mt-4"></div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {projects.map((proj) => (
+                <div key={proj.id} className="p-7 rounded-2xl border bg-slate-900 border-slate-800 flex flex-col justify-between">
+                  <div>
+                    <span className="text-[11px] font-mono font-bold text-sky-500 uppercase">{proj.category}</span>
+                    <h3 className="text-lg font-bold text-white mb-2">{proj.title}</h3>
+                    <p className="text-xs sm:text-sm text-slate-300 leading-relaxed mb-4">{proj.description}</p>
+                    <div className="flex flex-wrap gap-1.5 mb-6">
+                      {proj.technologies.map((tech, i) => (
+                        <span key={i} className="px-2.5 py-1 rounded-lg text-[11px] font-mono bg-slate-800 text-slate-300">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="pt-4 border-t border-slate-800 flex justify-between items-center">
+                    <button
+                      onClick={() => onSelectProject(proj)}
+                      className="text-xs font-semibold text-sky-400 hover:underline"
+                    >
+                      Lihat Rincian →
+                    </button>
+                    <a
+                      href={proj.github}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="px-3 py-1.5 rounded-lg text-xs bg-slate-800 hover:bg-slate-700 text-white transition"
+                    >
+                      GitHub Repo
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // CONTACT COMPONENT
+    function Contact({ darkMode }) {
+      const { personal } = cvData;
+      const [formData, setFormData] = useState({ name: '', senderContact: '', subject: '', message: '' });
+
+      const handleSubmitWhatsApp = (e) => {
+        e.preventDefault();
+        if (!formData.name || !formData.message) {
+          alert("Mohon isi nama dan pesan Anda terlebih dahulu.");
+          return;
+        }
+        const text = `Halo Ikbal,%0A%0ANama: ${encodeURIComponent(formData.name)}%0AKontak: ${encodeURIComponent(formData.senderContact || '-')}%0ASubjek: ${encodeURIComponent(formData.subject || 'Peluang Magang / Diskusi')}%0APesan:%0A${encodeURIComponent(formData.message)}`;
+        window.open(`https://wa.me/6285147633210?text=${text}`, '_blank');
+      };
+
+      const handleSubmitEmail = (e) => {
+        e.preventDefault();
+        if (!formData.name || !formData.message) {
+          alert("Mohon isi nama dan pesan Anda terlebih dahulu.");
+          return;
+        }
+        const subject = encodeURIComponent(`[Portfolio CV] ${formData.subject || 'Diskusi / Peluang Magang'}`);
+        const body = encodeURIComponent(`Halo Ikbal,\n\nNama: ${formData.name}\nKontak Pengirim: ${formData.senderContact || '-'}\n\nPesan:\n${formData.message}\n\nSalam,\n${formData.name}`);
+        window.location.href = `mailto:${personal.email}?subject=${subject}&body=${body}`;
+      };
+
+      return (
+        <section id="contact" className="py-20 transition-colors duration-300">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col items-center text-center mb-16">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold text-blue-500 bg-blue-500/10 mb-3 uppercase tracking-wider">
+                Hubungi Saya
+              </div>
+              <h2 className={`text-3xl sm:text-4xl font-extrabold tracking-tight ${
+                darkMode ? 'text-white' : 'text-slate-900'
+              }`}>
+                Mari Terhubung & Berdiskusi
+              </h2>
+              <div className="w-16 h-1 bg-gradient-to-r from-blue-600 to-sky-400 rounded-full mt-4"></div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
+              <div className="lg:col-span-5 space-y-4">
+                <div className="p-5 rounded-2xl border bg-slate-900 border-slate-800 flex justify-between items-center">
+                  <div>
+                    <div className="text-xs text-emerald-500 font-bold">WhatsApp Langsung</div>
+                    <div className="font-bold text-white">{personal.whatsapp}</div>
+                  </div>
+                  <a href={personal.whatsappLink} target="_blank" rel="noreferrer" className="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-600 text-white">
+                    Chat
+                  </a>
+                </div>
+
+                <div className="p-5 rounded-2xl border bg-slate-900 border-slate-800 flex justify-between items-center">
+                  <div>
+                    <div className="text-xs text-sky-500 font-bold">Email Utama</div>
+                    <div className="font-bold text-white break-all">{personal.email}</div>
+                  </div>
+                  <a href={`mailto:${personal.email}`} className="px-3 py-1.5 rounded-lg text-xs font-bold bg-sky-600 text-white">
+                    Kirim
+                  </a>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <a href={personal.instagramLink} target="_blank" rel="noreferrer" className="p-4 rounded-xl border bg-slate-900 border-slate-800 text-center hover:border-pink-500 transition">
+                    <div className="text-xs text-slate-500">Instagram</div>
+                    <div className="text-sm font-bold text-white">@{personal.instagram}</div>
+                  </a>
+                  <a href={personal.githubLink} target="_blank" rel="noreferrer" className="p-4 rounded-xl border bg-slate-900 border-slate-800 text-center hover:border-sky-500 transition">
+                    <div className="text-xs text-slate-500">GitHub</div>
+                    <div className="text-sm font-bold text-white">@{personal.github}</div>
+                  </a>
+                </div>
+              </div>
+
+              <div className="lg:col-span-7 p-7 rounded-2xl border bg-slate-900 border-slate-800">
+                <h3 className="text-xl font-bold text-white mb-4">Kirim Pesan Cepat</h3>
+                <form className="space-y-4">
+                  <input
+                    type="text"
+                    placeholder="Nama Lengkap *"
+                    value={formData.name}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    className="w-full px-4 py-2.5 rounded-xl text-sm bg-slate-950 border border-slate-700 text-white"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Kontak Anda (Email / WhatsApp)"
+                    value={formData.senderContact}
+                    onChange={(e) => setFormData({ ...formData, senderContact: e.target.value })}
+                    className="w-full px-4 py-2.5 rounded-xl text-sm bg-slate-950 border border-slate-700 text-white"
+                  />
+                  <input
+                    type="text"
+                    placeholder="Subjek Keperluan"
+                    value={formData.subject}
+                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                    className="w-full px-4 py-2.5 rounded-xl text-sm bg-slate-950 border border-slate-700 text-white"
+                  />
+                  <textarea
+                    rows={4}
+                    placeholder="Tuliskan pesan Anda di sini..."
+                    value={formData.message}
+                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    className="w-full px-4 py-2.5 rounded-xl text-sm bg-slate-950 border border-slate-700 text-white resize-none"
+                  ></textarea>
+
+                  <div className="flex gap-3">
+                    <button
+                      type="button"
+                      onClick={handleSubmitWhatsApp}
+                      className="w-1/2 py-3 rounded-xl font-bold text-sm text-white bg-emerald-600 hover:bg-emerald-500 transition"
+                    >
+                      Kirim via WhatsApp 💬
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleSubmitEmail}
+                      className="w-1/2 py-3 rounded-xl font-bold text-sm text-white bg-blue-600 hover:bg-blue-500 transition"
+                    >
+                      Kirim via Email ✉️
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    // CV MODAL COMPONENT
+    function CVModal({ isOpen, onClose }) {
+      if (!isOpen) return null;
+      const { personal, education, skills, experiences, projects } = cvData;
+
+      return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-6 bg-black/85 backdrop-blur-md overflow-y-auto animate-fadeIn print:p-0 print:bg-white print:static">
+          <div className="fixed inset-0 print:hidden" onClick={onClose}></div>
+
+          <div className="relative w-full max-w-4xl my-auto rounded-2xl shadow-2xl overflow-hidden z-10 flex flex-col max-h-[92vh] print:max-h-none print:shadow-none print:rounded-none bg-slate-900 border border-slate-700 text-white">
+            <div className="px-6 py-4 border-b border-slate-800 flex justify-between items-center print:hidden">
+              <h3 className="font-bold text-sm sm:text-base">Curriculum Vitae — {personal.fullName}</h3>
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => window.print()}
+                  className="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold bg-blue-600 hover:bg-blue-500 text-white shadow"
+                >
+                  Cetak / Simpan PDF 📄
+                </button>
+                <button onClick={onClose} className="text-slate-400 hover:text-white text-lg">✕</button>
+              </div>
+            </div>
+
+            <div id="printable-cv" className="overflow-y-auto p-4 sm:p-8 bg-slate-950 print:bg-white print:p-0">
+              <div className="max-w-[800px] mx-auto bg-white text-slate-900 p-8 sm:p-12 rounded-xl print:rounded-none border border-slate-200 print:border-none">
+                <div className="border-b-2 border-slate-900 pb-5 mb-5 flex justify-between items-start">
+                  <div>
+                    <h1 className="text-2xl sm:text-3xl font-black uppercase tracking-tight">{personal.fullName}</h1>
+                    <h2 className="text-sm sm:text-base font-bold text-blue-700 mt-1">{personal.profession}</h2>
+                  </div>
+                  <div className="text-xs text-slate-600 space-y-0.5 text-right font-medium">
+                    <div>📧 {personal.email}</div>
+                    <div>📱 {personal.whatsapp}</div>
+                    <div>🌐 github.com/{personal.github}</div>
+                  </div>
+                </div>
+
+                <div className="mb-5">
+                  <h3 className="text-xs font-black uppercase tracking-wider border-b border-slate-300 pb-1 mb-2">RINGKASAN PROFIL</h3>
+                  <p className="text-xs sm:text-sm text-slate-700 leading-relaxed text-justify">{personal.aboutMe} {personal.shortBio}</p>
+                </div>
+
+                <div className="mb-5">
+                  <h3 className="text-xs font-black uppercase tracking-wider border-b border-slate-300 pb-1 mb-2">PENDIDIKAN FORMAL</h3>
+                  <div className="space-y-2">
+                    {education.map((edu, idx) => (
+                      <div key={idx} className="flex justify-between text-xs">
+                        <div>
+                          <div className="font-bold text-slate-900">{edu.institution}</div>
+                          <div className="text-blue-700 font-semibold">{edu.major}</div>
+                        </div>
+                        <div className="font-mono font-semibold text-slate-500">{edu.period}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mb-5 grid grid-cols-2 gap-4">
+                  <div>
+                    <h3 className="text-xs font-black uppercase tracking-wider border-b border-slate-300 pb-1 mb-2">KEAHLIAN TEKNIS</h3>
+                    <ul className="text-xs space-y-1 text-slate-700">
+                      {skills.technical.map((s, i) => (
+                        <li key={i} className="flex justify-between">
+                          <span>• {s.name}</span>
+                          <span className="font-mono">{s.level}%</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="text-xs font-black uppercase tracking-wider border-b border-slate-300 pb-1 mb-2">SOFT SKILLS</h3>
+                    <ul className="text-xs space-y-1 text-slate-700">
+                      {skills.soft.map((s, i) => (
+                        <li key={i}><span className="font-bold">• {s.name}:</span> {s.description}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 className="text-xs font-black uppercase tracking-wider border-b border-slate-300 pb-1 mb-2">PROYEK TERKAIT</h3>
+                  <div className="grid grid-cols-2 gap-3 text-xs">
+                    {projects.slice(0, 2).map((p) => (
+                      <div key={p.id} className="p-2 border rounded bg-slate-50">
+                        <div className="font-bold">{p.title}</div>
+                        <div className="text-[11px] text-blue-700">{p.technologies.join(', ')}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    // MAIN APP
+    function App() {
+      const [darkMode, setDarkMode] = useState(true);
+      const [isCVModalOpen, setIsCVModalOpen] = useState(false);
+      const [selectedProject, setSelectedProject] = useState(null);
+
+      useEffect(() => {
+        if (darkMode) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      }, [darkMode]);
+
+      return (
+        <div className={`min-h-screen ${darkMode ? 'bg-slate-950 text-slate-100' : 'bg-white text-slate-900'}`}>
+          <Navbar darkMode={darkMode} setDarkMode={setDarkMode} onOpenCVModal={() => setIsCVModalOpen(true)} />
+          <main>
+            <Hero darkMode={darkMode} onOpenCVModal={() => setIsCVModalOpen(true)} />
+            <About darkMode={darkMode} />
+            <Education darkMode={darkMode} />
+            <Skills darkMode={darkMode} />
+            <Experience darkMode={darkMode} />
+            <Projects darkMode={darkMode} onSelectProject={(p) => setSelectedProject(p)} />
+            <Contact darkMode={darkMode} />
+          </main>
+          <footer className="py-8 text-center text-xs text-slate-500 border-t border-slate-800">
+            &copy; {new Date().getFullYear()} Ikbal Abi Pamungkas. All rights reserved.
+          </footer>
+          <CVModal isOpen={isCVModalOpen} onClose={() => setIsCVModalOpen(false)} />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
