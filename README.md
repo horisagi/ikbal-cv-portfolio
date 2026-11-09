@@ -10,7 +10,7 @@ Website Curriculum Vitae (CV) dan Portfolio digital interaktif yang dirancang de
 - **Status / Peran:** Siswa SMK TKJ • Calon Praktikan Magang IT
 - **Sekolah:** SMK TI GARUDA NUSANTARA (Teknik Komputer dan Jaringan / TKJ, 2024 – Sekarang)
 - **Email:** [kazenakair@gmail.com](mailto:kazenakair@gmail.com)
-- **WhatsApp:** [085147633210](https://wa.me/6285147633210)
+- **WhatsApp:** 
 - **Instagram:** [@andrw_gves](https://instagram.com/andrw_gves)
 - **GitHub:** [horisagi](https://github.com/horisagi)
 
